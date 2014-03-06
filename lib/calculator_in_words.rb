@@ -4,23 +4,29 @@ def calculator(string)
   
   question_array.each do |word|
     if word.scan(/[\d]/)
-      equation_array << word.to_i
+      equation_array << word.to_f
       equation_array.delete(0)
     end
   end
-  if question_array.include?("plus")
-    equation_array.inject(0) {|sum, i| sum + i}
+  #[2, plus, 2, minus, 1]
+  #question_array.each do |operator|
+    if question_array.any? { |word| ["plus", "added", "sum"].include?(word) }
+      add_result = equation_array.inject {|sum, i| sum + i}
 
-  elsif question_array.include?("minus")
-    equation_array.inject {|sub, i| sub - i}  
+    elsif question_array.any? { |word| ["minus", "from"].include?(word) }
+      minus_result = equation_array.inject {|sub, i| sub - i}  
 
-  elsif question_array.include?("times")
-    equation_array.inject {|mult, i| mult * i}
+    elsif question_array.any? { |word| ["times", "multiplied", "x", "X"].include?(word) }
+      times_result = equation_array.inject {|mult, i| mult * i}
 
-  else question_array.include?("divided")
-    equation_array.inject {|div, i| div / i}
-  
-  end  
+    elsif question_array.any? { |word| ["divided", "into"].include?(word) }
+      divided_result = equation_array.inject {|div, i| div / i}
+    
+    elsif question_array.any? { |word| ["power"].include?(word) }
+      power_result = equation_array.inject {|pow, i| pow ** i}
+
+    else puts "Does not compute, human!"
+    end  
 end
 
-print calculator("3 divided 9?")
+print calculator("what's 2 plus 2 minus 1 ?")
