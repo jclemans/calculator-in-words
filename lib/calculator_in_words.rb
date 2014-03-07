@@ -1,32 +1,24 @@
 def calculator(string)
-  equation_array = []
+  operators = {"plus" => "+", "minus" => "-", "times" => "*", "divided" => "/", "power" => "**"}
+  number_array = []
+  operators_array = []
   question_array = string.downcase.gsub(/[^a-z\s\d]/, '').split(" ")
   
   question_array.each do |word|
-    if word.scan(/[\d]/)
-      equation_array << word.to_f
-      equation_array.delete(0)
+    if word == "plus" || word == "minus" || word == "times" || word == "divided" || word == "power"
+      operators_array << operators[word]
     end
   end
-  #[2, plus, 2, minus, 1]
-  #question_array.each do |operator|
-    if question_array.any? { |word| ["plus", "added", "sum"].include?(word) }
-      add_result = equation_array.inject {|sum, i| sum + i}
 
-    elsif question_array.any? { |word| ["minus", "from"].include?(word) }
-      minus_result = equation_array.inject {|sub, i| sub - i}  
+  question_array.each do |word|
+    if word.scan(/[\d]/)
+      number_array << word.to_f
+      number_array.delete(0)
+    end
+  end
 
-    elsif question_array.any? { |word| ["times", "multiplied", "x", "X"].include?(word) }
-      times_result = equation_array.inject {|mult, i| mult * i}
+  zipped_array = number_array.zip(operators_array).flatten.compact.join(' ')
+  eval(zipped_array)
 
-    elsif question_array.any? { |word| ["divided", "into"].include?(word) }
-      divided_result = equation_array.inject {|div, i| div / i}
-    
-    elsif question_array.any? { |word| ["power"].include?(word) }
-      power_result = equation_array.inject {|pow, i| pow ** i}
-
-    else puts "Does not compute, human!"
-    end  
 end
-
-print calculator("what's 2 plus 2 minus 1 ?")
+puts calculator("What is 3 to the 3rd power?")

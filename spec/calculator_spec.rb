@@ -31,5 +31,9 @@ describe('calculator') do
     calculator('What is 2 plus 2 minus 1').should(eq(3))
   end
 
+  it("calculates the correct order of operations") do
+    calculator("What is 2 plus 2 times 2").should(eq(6))
+  end
+    
 end
 
